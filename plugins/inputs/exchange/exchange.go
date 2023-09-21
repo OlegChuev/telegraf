@@ -117,16 +117,16 @@ func (e *Exchange) prepareHttpClient() (*http.Client, *http.Request, error) {
 	e.fullApiLink = fmt.Sprintf("%v", u)
 
 	req, err := http.NewRequest("GET", e.fullApiLink, nil)
-	req.Header.Set("apikey", e.APIKey)
-
 	if err != nil {
 		return nil, nil, err
 	}
 
+	req.Header.Set("apikey", e.APIKey)
+
 	return client, req, nil
 }
 
-// parseResponse parses response to the endpoint and returns ApiResponse struct.
+// parseResponse parses response from the endpoint and adds fields to the accumulator.
 func parseResponse(res *http.Response, e *Exchange, acc telegraf.Accumulator) error {
 	defer res.Body.Close()
 
